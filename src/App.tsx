@@ -1,29 +1,20 @@
 import Header from "./components/Header/Header.tsx";
 import { ClipboardText, PlusCircle } from "phosphor-react";
 import styles from "./app.module.css";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Task from "./components/Task/Task.tsx";
 import { v4 as uuidv4 } from "uuid";
+import { createTodo, getTodos, TodoResponse } from "./api/todo.ts";
 
-const data = [
-  {
-    id: uuidv4(),
-    title: "Tarefa 1",
-    isDeleted: false,
-    isCompleted: false,
-  },
-  {
-    id: uuidv4(),
-    title: "Tarefa 2",
-    isDeleted: false,
-    isCompleted: false,
-  },
-];
 
 export default function App() {
   const [newTask, setNewTask] = useState("");
-  const [tasks, setTasks] = useState(data); // hook do react
+  const [tasks, setTasks] = useState<TodoResponse[]>([]);
 
+
+  useEffect(() => {
+    getTodos().then((response) => setTasks(response))
+  })
   const handleNewTaskChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setNewTask(event.target.value);
@@ -31,16 +22,11 @@ export default function App() {
 
   const handleCreateTask = (event: FormEvent) => {
     event.preventDefault();
+    createTodo({
+      title: newTask,
+    })
 
-    setTasks((prev) => [
-      ...prev,
-      {
-        id: uuidv4(),
-        title: newTask,
-        isCompleted: false,
-        isDeleted: false,
-      },
-    ]);
+ 
   };
 
   // Função para marcar uma tarefa como concluída
