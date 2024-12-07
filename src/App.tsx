@@ -68,7 +68,7 @@ export default function App() {
     setTasks(newTasks);
   };
 
-  // Lógica para calcular total de tarefas conclídas
+  // Lógica para calcular total de tarefas concluidas
   let count = 0;
   // tasks.map((item) => item.isCompleted ? ++count : ""); // ternario com se e senão
   tasks.map((item) => item.isCompleted && ++count);
@@ -80,13 +80,40 @@ export default function App() {
         <form className={styles.newText} onSubmit={handleCreateTask}>
           <input
             type="text"
-            placeholder="Adicione uma nova tarefa"
+            placeholder="Adicione uma nova tarefa" 
             value={newTask}
             onChange={handleNewTaskChange}
             required
           />
           <button type="submit">
             Criar
+            <PlusCircle size={20} />
+          </button>
+          <button type="submit">
+            todos
+            <PlusCircle size={20} />
+          </button>
+          <button
+  type="submit"
+  style={{
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "#007bff", // Azul
+    backgroundColor: "transparent",
+    border: "2px solid #007bff",
+    borderRadius: "5px",
+    padding: "8px 12px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    gap: "5px", // Espaço entre o texto e o ícone
+  }}
+>
+  ativos
+  <PlusCircle size={20} />
+</button>
+          <button type="submit">
+            completados
             <PlusCircle size={20} />
           </button>
         </form>
